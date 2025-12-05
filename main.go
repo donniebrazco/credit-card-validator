@@ -50,6 +50,28 @@ func loadBankData(path string) ([]Bank, error) {
 	return banksData, nil
 }
 
+func extractBIN(cardNumber string) int {
+	var cleaned []rune
+	for _, r := range cardNumber {
+		if r >= '0' && r <= '9' {
+			cleaned = append(cleaned, r)
+		}
+	}
+	if len(cleaned) < 6 {
+		return 0
+	}
+	binStr := string(cleaned[:6])
+	binInt, err := strconv.Atoi(binStr)
+	if err != nil {
+		return 0
+	}
+	return binInt
+}
+
+func identifyBank(bin int, banks []Bank) string {
+
+}
+
 func main() {
 	banksData, err := loadBankData("banks.txt")
 	if err != nil {
