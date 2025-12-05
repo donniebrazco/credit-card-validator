@@ -70,13 +70,25 @@ func extractBIN(cardNumber string) int {
 
 func identifyBank(bin int, banks []Bank) string {
 
+	for _, bank := range banks {
+		if bin >= bank.BinFrom && bin <= bank.BinTo {
+			return bank.Name
+		}
+	}
+	return "Неизвестный банк"
 }
 
 func main() {
-	banksData, err := loadBankData("banks.txt")
+	// banksData, err := loadBankData("banks.txt")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// } else {
+	// 	fmt.Println(banksData)
+	// }
+	banks, err := loadBankData("banks.txt")
 	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println(banksData)
+		fmt.Println("Error", err)
+		return
 	}
+	fmt.Println(identifyBank(400000, banks))
 }
